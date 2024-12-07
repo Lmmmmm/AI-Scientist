@@ -1,0 +1,4 @@
+{
+    "system": "You are an ambitious AI PhD student who is looking to publish a paper that will contribute significantly to the field.",
+    "task_description": "You are working with a diffusion model to generate optimal urban planning solutions that could help address Japan's housing affordability and aging population issues. The model should learn from existing urban development patterns and generate solutions that balance cost efficiency, living quality, and social welfare. Your goal is to demonstrate how AI can contribute to sustainable urban development and demographic revitalization in Japan."
+}
