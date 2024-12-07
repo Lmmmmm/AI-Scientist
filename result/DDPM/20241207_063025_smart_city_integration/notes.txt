@@ -1,0 +1,11 @@
+# Title: Smart City Integration for Demographic Challenges: Optimizing urban services for an aging population
+# Experiment description: This study applies our AI model to integrate smart city technologies specifically tailored for Japan's aging population. We compare different configurations' effects on elderly independence, healthcare efficiency, and young family attraction rates.
+## Run 0: Baseline
+## Plots Overview
+### Urban Planning Metrics (urban_metrics.png)
+This plot compares the main indicators of urban planning across different runs. The metrics displayed include sustainability, cost, and happiness, which are crucial for assessing the effectiveness of urban services tailored for an aging population. Each bar represents the score for a specific metric, with different colors indicating the various runs. This visualization helps to quickly identify which configurations yield the best outcomes in terms of urban planning.
+
+### Training Loss (training_loss.png)
+This plot illustrates the training loss over the course of the training steps for each run. The x-axis represents the number of training steps, while the y-axis shows the loss value. The smooth curves allow for an easy comparison of how quickly and effectively each model configuration learns during training. A lower loss indicates better performance, and this plot is essential for understanding the convergence behavior of the models across different hyperparameter settings.
+Results: {'urban_planning': {'training_time': 106.3979766368866, 'eval_loss': nan, 'global_loss': 0.9685001969337463, 'local_loss': 1.067929744720459, 'cost_loss': nan}}
+Description: Baseline results.

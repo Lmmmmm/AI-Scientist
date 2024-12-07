@@ -1,0 +1,9 @@
+# Title: Adaptive Urban Density Planning: Optimizing land use for demographic revitalization in Japan
+# Experiment description: This experiment compares different urban density models using our AI-driven city planning framework. We evaluate the impact on birth rates, elderly care efficiency, and overall citizen satisfaction using multi-dimensional KL divergence.
+## Run 0: Baseline
+### Plots
+- **Urban Planning Metrics (urban_metrics.png)**: This plot compares the main indicators of urban planning across different runs. The metrics displayed include sustainability, cost, and happiness. Each bar represents the average score for each metric, allowing for a visual comparison of how different configurations (learning rates and hidden layer sizes) impact these key indicators.
+
+- **Training Loss (training_loss.png)**: This plot illustrates the training loss over the course of the training steps for each run. The x-axis represents the number of training steps, while the y-axis shows the loss value. The smooth curves indicate the model's performance during training, highlighting how quickly the model learns and converges to a lower loss. This is crucial for understanding the efficiency of different learning rates and model architectures in the training process.
+Results: {'urban_planning': {'training_time': 106.3979766368866, 'eval_loss': nan, 'global_loss': 0.9685001969337463, 'local_loss': 1.067929744720459, 'cost_loss': nan}}
+Description: Baseline results.

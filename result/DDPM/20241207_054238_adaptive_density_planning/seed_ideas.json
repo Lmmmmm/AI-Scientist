@@ -1,0 +1,26 @@
+[
+    {
+        "Name": "adaptive_density_planning",
+        "Title": "Adaptive Urban Density Planning: Optimizing land use for demographic revitalization in Japan",
+        "Experiment": "This experiment compares different urban density models using our AI-driven city planning framework. We evaluate the impact on birth rates, elderly care efficiency, and overall citizen satisfaction using multi-dimensional KL divergence.",
+        "Interestingness": 9,
+        "Feasibility": 7,
+        "Novelty": 8
+    },
+    {
+        "Name": "intergenerational_housing",
+        "Title": "AI-Optimized Intergenerational Housing: Balancing young families and elderly care needs",
+        "Experiment": "We use our diffusion model to generate optimal layouts for intergenerational housing complexes, aiming to increase social interactions between young families and the elderly. Success is measured by projected birth rates and elderly well-being scores.",
+        "Interestingness": 8,
+        "Feasibility": 6,
+        "Novelty": 7
+    },
+    {
+        "Name": "smart_city_integration",
+        "Title": "Smart City Integration for Demographic Challenges: Optimizing urban services for an aging population",
+        "Experiment": "This study applies our AI model to integrate smart city technologies specifically tailored for Japan's aging population. We compare different configurations' effects on elderly independence, healthcare efficiency, and young family attraction rates.",
+        "Interestingness": 9,
+        "Feasibility": 8,
+        "Novelty": 9
+    }
+]

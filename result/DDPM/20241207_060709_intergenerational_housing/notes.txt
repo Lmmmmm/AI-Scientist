@@ -1,0 +1,21 @@
+# Title: AI-Optimized Intergenerational Housing: Balancing young families and elderly care needs
+# Experiment description: We use our diffusion model to generate optimal layouts for intergenerational housing complexes, aiming to increase social interactions between young families and the elderly. Success is measured by projected birth rates and elderly well-being scores.
+## Run 0: Baseline
+
+## Plot Descriptions
+# 1. Urban Planning Metrics (urban_metrics.png)
+# This plot compares the main indicators of urban planning across different runs. 
+# The metrics include sustainability, cost, and happiness scores, which are crucial 
+# for evaluating the effectiveness of the intergenerational housing designs. Each 
+# bar represents the average score for a specific metric, allowing for a visual 
+# comparison of how each experiment performed relative to the baseline and each other.
+
+# 2. Training Loss (training_loss.png)
+# This plot illustrates the training loss over the course of the training steps for 
+# each run. The x-axis represents the number of training steps, while the y-axis 
+# shows the loss value. A lower loss indicates better model performance. The 
+# smoothing applied to the loss curves helps to visualize trends and fluctuations 
+# in training, making it easier to assess the stability and convergence of the 
+# training process across different configurations.
+Results: {'urban_planning': {'training_time': 106.3979766368866, 'eval_loss': nan, 'global_loss': 0.9685001969337463, 'local_loss': 1.067929744720459, 'cost_loss': nan}}
+Description: Baseline results.
