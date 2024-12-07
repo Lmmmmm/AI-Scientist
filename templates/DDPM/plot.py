@@ -29,8 +29,7 @@ for folder in folders:
         train_info[folder] = all_results
 
 labels = {
-    "run_0": "Baseline",
-    "run_1": "Optimized",
+    "run_0": "Baseline"
 }
 
 # Generating Color Schemes
