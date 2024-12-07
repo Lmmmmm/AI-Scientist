@@ -40,7 +40,6 @@ class ResidualBlock(nn.Module):
 
     def forward(self, x: torch.Tensor):
         return x + self.ff(self.act(x))
-
 class UrbanPlanner(nn.Module):
     def __init__(self, embedding_dim=128, hidden_dim=256, hidden_layers=3):
         super().__init__()
@@ -48,40 +47,47 @@ class UrbanPlanner(nn.Module):
         self.input_mlp1 = SinusoidalEmbedding(embedding_dim, scale=25.0)
         self.input_mlp2 = SinusoidalEmbedding(embedding_dim, scale=25.0)
 
-        # 修改输出维度
+        # 修改输出维度以匹配数据
         self.global_branch = nn.Sequential(
             nn.Linear(embedding_dim * 3, hidden_dim),
             *[ResidualBlock(hidden_dim) for _ in range(hidden_layers)],
             nn.ReLU(),
-            nn.Linear(hidden_dim, 6)  # 改为6维
+            nn.Linear(hidden_dim, 6)
         )
 
         self.local_branch = nn.Sequential(
             nn.Linear(embedding_dim * 3, hidden_dim),
             *[ResidualBlock(hidden_dim) for _ in range(hidden_layers)],
             nn.ReLU(),
-            nn.Linear(hidden_dim, 5)  # 改为5维
+            nn.Linear(hidden_dim, 5)
         )
 
         self.cost_branch = nn.Sequential(
             nn.Linear(embedding_dim * 3, hidden_dim),
             *[ResidualBlock(hidden_dim) for _ in range(hidden_layers)],
             nn.ReLU(),
-            nn.Linear(hidden_dim, 5)  # 改为5维
+            nn.Linear(hidden_dim, 5)
         )
 
     def forward(self, x, t):
-        x1_emb = self.input_mlp1(x[:, :8])
-        x2_emb = self.input_mlp2(x[:, 8:16])
-        t_emb = self.time_mlp(t)
+        # 处理输入维度
+        x1 = x[:, :8].mean(dim=1)  # 将8维特征平均为1维
+        x2 = x[:, 8:16].mean(dim=1)  # 将8维特征平均为1维
 
-        emb = torch.cat([x1_emb, x2_emb, t_emb], dim=-1)
+        # 生成嵌入
+        x1_emb = self.input_mlp1(x1)  # [batch_size, embedding_dim]
+        x2_emb = self.input_mlp2(x2)  # [batch_size, embedding_dim]
+        t_emb = self.time_mlp(t)      # [batch_size, embedding_dim]
 
+        # 合并特征
+        emb = torch.cat([x1_emb, x2_emb, t_emb], dim=-1)  # [batch_size, embedding_dim * 3]
+
+        # 通过三个分支
         global_features = self.global_branch(emb)
         local_features = self.local_branch(emb)
         cost_features = self.cost_branch(emb)
 
-        # 确保输出维度总和为16
+        # 合并输出
         return torch.cat([global_features, local_features, cost_features], dim=-1)
 
 class NoiseScheduler():
