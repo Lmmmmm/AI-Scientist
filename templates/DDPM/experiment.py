@@ -228,7 +228,6 @@ if __name__ == "__main__":
 
     eval_loss = np.mean(eval_losses)
 
-    # 保存结果
     final_infos["urban_planning"] = {
         "means": {
             "training_time": training_time,
@@ -241,7 +240,7 @@ if __name__ == "__main__":
 
     all_results["urban_planning"] = {
         "train_losses": train_losses,
-        "urban_features": sample.cpu().numpy(),
+        "urban_features": noise_pred.cpu().detach().numpy(),
     }
 
     with open(osp.join(config.out_dir, "final_info.json"), "w") as f:
