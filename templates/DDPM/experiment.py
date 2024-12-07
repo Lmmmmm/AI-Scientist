@@ -70,12 +70,14 @@ class UrbanPlanner(nn.Module):
         )
 
     def forward(self, x, t):
-        x1_emb = self.input_mlp1(x[:, 0:8]).unsqueeze(1)
-        x2_emb = self.input_mlp2(x[:, 8:16]).unsqueeze(1)
-        t_emb = self.time_mlp(t).unsqueeze(1)
+        x1 = x[:, 0:8].mean(dim=1)
+        x2 = x[:, 8:16].mean(dim=1)
+
+        x1_emb = self.input_mlp1(x1)
+        x2_emb = self.input_mlp2(x2)
+        t_emb = self.time_mlp(t)
 
         emb = torch.cat([x1_emb, x2_emb, t_emb], dim=-1)
-        emb = emb.view(emb.size(0), -1)
 
         global_features = self.global_branch(emb)
         local_features = self.local_branch(emb)
