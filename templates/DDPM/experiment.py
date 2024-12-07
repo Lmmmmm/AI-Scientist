@@ -141,7 +141,7 @@ if __name__ == "__main__":
 
     pathlib.Path(config.out_dir).mkdir(parents=True, exist_ok=True)
 
-    dataset = datasets.get_urban_dataset(n=1000)
+    dataset = datasets.get_urban_dataset(n_samples=1000)
     dataloader = DataLoader(dataset, batch_size=config.train_batch_size, shuffle=True)
 
     model = UrbanPlanner(
