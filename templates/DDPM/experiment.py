@@ -48,7 +48,6 @@ class UrbanPlanner(nn.Module):
         self.input_mlp1 = SinusoidalEmbedding(embedding_dim, scale=25.0)
         self.input_mlp2 = SinusoidalEmbedding(embedding_dim, scale=25.0)
 
-        # 全局城市规划分支
         self.global_branch = nn.Sequential(
             nn.Linear(embedding_dim * 3, hidden_dim),
             *[ResidualBlock(hidden_dim) for _ in range(hidden_layers)],
@@ -56,7 +55,6 @@ class UrbanPlanner(nn.Module):
             nn.Linear(hidden_dim, 8)
         )
 
-        # 局部设施分析分支
         self.local_branch = nn.Sequential(
             nn.Linear(embedding_dim * 3, hidden_dim),
             *[ResidualBlock(hidden_dim) for _ in range(hidden_layers)],
@@ -64,7 +62,6 @@ class UrbanPlanner(nn.Module):
             nn.Linear(hidden_dim, 8)
         )
 
-        # 成本控制网络
         self.cost_branch = nn.Sequential(
             nn.Linear(embedding_dim * 3, hidden_dim),
             *[ResidualBlock(hidden_dim) for _ in range(hidden_layers)],
@@ -73,11 +70,12 @@ class UrbanPlanner(nn.Module):
         )
 
     def forward(self, x, t):
-        x1_emb = self.input_mlp1(x[:, 0:8])
-        x2_emb = self.input_mlp2(x[:, 8:16])
-        t_emb = self.time_mlp(t)
+        x1_emb = self.input_mlp1(x[:, 0:8]).unsqueeze(1)
+        x2_emb = self.input_mlp2(x[:, 8:16]).unsqueeze(1)
+        t_emb = self.time_mlp(t).unsqueeze(1)
 
         emb = torch.cat([x1_emb, x2_emb, t_emb], dim=-1)
+        emb = emb.view(emb.size(0), -1)
 
         global_features = self.global_branch(emb)
         local_features = self.local_branch(emb)
