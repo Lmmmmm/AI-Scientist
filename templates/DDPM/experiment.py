@@ -48,33 +48,31 @@ class UrbanPlanner(nn.Module):
         self.input_mlp1 = SinusoidalEmbedding(embedding_dim, scale=25.0)
         self.input_mlp2 = SinusoidalEmbedding(embedding_dim, scale=25.0)
 
+        # 修改输出维度
         self.global_branch = nn.Sequential(
             nn.Linear(embedding_dim * 3, hidden_dim),
             *[ResidualBlock(hidden_dim) for _ in range(hidden_layers)],
             nn.ReLU(),
-            nn.Linear(hidden_dim, 8)
+            nn.Linear(hidden_dim, 6)  # 改为6维
         )
 
         self.local_branch = nn.Sequential(
             nn.Linear(embedding_dim * 3, hidden_dim),
             *[ResidualBlock(hidden_dim) for _ in range(hidden_layers)],
             nn.ReLU(),
-            nn.Linear(hidden_dim, 8)
+            nn.Linear(hidden_dim, 5)  # 改为5维
         )
 
         self.cost_branch = nn.Sequential(
             nn.Linear(embedding_dim * 3, hidden_dim),
             *[ResidualBlock(hidden_dim) for _ in range(hidden_layers)],
             nn.ReLU(),
-            nn.Linear(hidden_dim, 16)
+            nn.Linear(hidden_dim, 5)  # 改为5维
         )
 
     def forward(self, x, t):
-        x1 = x[:, 0:8].mean(dim=1)
-        x2 = x[:, 8:16].mean(dim=1)
-
-        x1_emb = self.input_mlp1(x1)
-        x2_emb = self.input_mlp2(x2)
+        x1_emb = self.input_mlp1(x[:, :8])
+        x2_emb = self.input_mlp2(x[:, 8:16])
         t_emb = self.time_mlp(t)
 
         emb = torch.cat([x1_emb, x2_emb, t_emb], dim=-1)
@@ -83,6 +81,7 @@ class UrbanPlanner(nn.Module):
         local_features = self.local_branch(emb)
         cost_features = self.cost_branch(emb)
 
+        # 确保输出维度总和为16
         return torch.cat([global_features, local_features, cost_features], dim=-1)
 
 class NoiseScheduler():
@@ -178,10 +177,9 @@ if __name__ == "__main__":
             noisy = noise_scheduler.add_noise(batch, noise, timesteps)
             noise_pred = model(noisy, timesteps)
 
-            # 计算三个分支的损失
-            global_loss = F.mse_loss(noise_pred[:, :8], noise[:, :8])
-            local_loss = F.mse_loss(noise_pred[:, 8:16], noise[:, 8:16])
-            cost_loss = F.mse_loss(noise_pred[:, 16:], noise[:, 16:])
+            global_loss = F.mse_loss(noise_pred[:, :6], noise[:, :6])
+            local_loss = F.mse_loss(noise_pred[:, 6:11], noise[:, 6:11])
+            cost_loss = F.mse_loss(noise_pred[:, 11:], noise[:, 11:])
 
             loss = global_loss + local_loss + 0.5 * cost_loss
 
